@@ -28,6 +28,13 @@
                 </div>
 
                 <div class="form-group row">
+                    <label class="col-form-label text-right col-lg-3 col-sm-12">Jumlah *</label>
+                    <div class="col-lg-9 col-md-9 col-sm-12">
+                        <input type="number" id="jumlah_field" class="form-control" name="jumlah_barang" placeholder="Masukkan jumlah field"/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Harga Satuan *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <input type="number" id="harga_satuan_field" class="form-control" name="harga_satuan" placeholder="Masukkan harga satuan barang"/>
@@ -51,7 +58,7 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Dipesan oleh perusahaan *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <select type="text" id="nota_pembelian_field" class="form-control" name="nota_pembelian" readonly/>
+                        <select type="text" id="nama_perusahaan_field" class="form-control select2" name="nama_perusahaan"> </select>
                     </div>
                 </div>
 
@@ -71,81 +78,63 @@
     <script type="text/javascript">
         const form = document.getElementById('form');
         $(document).ready(function () {
-            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            let nameField = $("#name_field");
-            let usernameField = $("#username_field");
-            let passwordField = $("#password_field");
-            let passwordConfirmationField = $("#password_confirmation_field");
-
+            let namaBarangField = $("#nama_barang_field");
+            let namaPerusahaanField = $("#nama_perusahaan_field");
+            let satuanBarangField = $("#satuan_barang_field");
+            let hargaSatuanField = $("#harga_satuan_field");
+            let totalField = $("#total_field");
+            let notaPembelianBarang = $("#nota_pembelian_field");
+            let jumlahBarangField = $("#jumlah_field");
+            getPerusahaan();
             const fv = FormValidation.formValidation(
                 form,
                 {
                     fields: {
-                        name: {
+                        nama_barang: {
                             validators: {
                                 notEmpty: {
-                                    message: 'Nama harus di isi'
+                                    message: 'Nama barang harus di isi'
                                 },
                             }
                         },
 
-                        username: {
+                        satuan_barang: {
                             validators: {
                                 notEmpty: {
-                                    message: 'Nama harus di isi'
+                                    message: 'Satuan barang harus di isi'
                                 },
                             }
                         },
 
-                        password: {
+                        jumlah_barang: {
                             validators: {
                                 notEmpty: {
-                                    message: 'Password harus di isi'
-                                },
-                                checkStrength: {
-                                    message: 'Password minimal 8 karakter',
-                                    callback: function (input) {
-                                        return input.value.length >= 8;
-                                    },
-                                },
-                                checkUppercase: {
-                                    message: 'Password harus kombinasi huruf besar dan kecil',
-                                    callback: function (input) {
-                                        return input.value != input.value.toLowerCase();
-                                    },
-                                },
-                                checkLowercase: {
-                                    message: 'Password harus kombinasi huruf besar dan kecil',
-                                    callback: function (input) {
-                                        return input.value != input.value.toUpperCase();
-                                    },
-                                },
-                                checkDigit: {
-                                    message: 'Password harus mengandung angka',
-                                    callback: function (input) {
-                                        return input.value.search(/[0-9]/) >= 0;
-                                    },
+                                    message: 'Jumlah barang harus di isi'
                                 },
                             }
                         },
 
-                        password_confirmation: {
+                        harga_satuan: {
                             validators: {
-                                identical: {
-                                    compare: function () {
-                                        return form.querySelector('[name="password"]').value;
-                                    },
-                                    message: 'Konfirmasi password tidak sama dengan password'
-                                }
+                                notEmpty: {
+                                    message: 'Jumlah barang harus di isi'
+                                },
                             }
                         },
 
-                        radios: {
+                        nota_pembelian: {
                             validators: {
-                                choice: {
-                                    min: 1,
-                                    message: 'Please kindly check this'
-                                }
+                                notEmpty: {
+                                    message: 'Nota pembelian harus di isi'
+                                },
+                            }
+                        },
+
+                        nama_perusahaan: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Perusahaan pemesan barang harus di isi'
+                                },
                             }
                         },
                     },
@@ -166,17 +155,42 @@
                 }
             );
 
-            // Revalidate the confirmation password when changing the password
-            form.querySelector('[name="password"]').addEventListener('input', function () {
-                fv.revalidateField('password_confirmation');
-            });
+            function getPerusahaan() {
+                $.ajax({
+                    url: '{{route("Perusahaan.index")}}',
+                    type: 'GET',
+                    dataType: 'JSON',
+                    beforeSend: function () {
+                        namaPerusahaanField.empty().append(`<option></option>`).select2({
+                            placeholder: "Loading...",
+                        });
+                    },
+                    success: function (result) {
+                        $.each(result.data, function (index, item) {
+                            namaPerusahaanField.append(`<option value="${item.id}" >${item.nama}</option>`);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Ada sesuatu yang salah'
+                        })
+
+                    },
+                    complete: function () {
+                        namaPerusahaanField.select2({
+                            placeholder: "Pilih Perusahaan",
+                        }).trigger("change");
+                    }
+                });
+            }
 
             $('#btnSubmit').click(function () {
                 fv.validate().then(function (status) {
                     if (status === "Valid") {
                         Swal.fire({
                             title: 'Apa anda yakin?',
-                            text: "Anda akan membuat akun baru!",
+                            text: "Anda akan membuat data barang baru!",
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonText: 'Ya',
@@ -191,11 +205,20 @@
             });
 
             function ajaxPost(){
+                var fd = new FormData();
+                var files = notaPembelianBarang[0].files[0];
+                fd.append('nota_pembelian',files);
+                fd.append('nama_barang',namaBarangField.val());
+                fd.append('nama_satuan',satuanBarangField.val());
+                fd.append('harga_satuan',hargaSatuanField.val());
+                fd.append('jumlah_barang',jumlah.val());
                 $.ajax({
-                    url: '{{route("Account.store")}}',
+                    url: '{{route("Barang.store")}}',
                     type: 'POST',
-                    data: $("#form").serialize(),
-                    dataType: 'JSON',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
                     beforeSend : function () {
                         KTApp.blockPage({
                             overlayColor: '#000000',
@@ -206,7 +229,7 @@
                     success: function (result) {
                         Swal.fire({
                             icon: 'success',
-                            title: 'Akun berhasil di buat',
+                            title: 'Data barang berhasil di buat',
                             onClose: () => {
                                 window.location.href = result.redirect;
                             }
@@ -230,30 +253,30 @@
             }
 
             function setError(data){
-                if (typeof data.name !== 'undefined') {
-                    $.each( data.name, function( key, value ) {
-                        nameField.next(".fv-plugins-message-container").append(`
+                if (typeof data.nama_barang !== 'undefined') {
+                    $.each( data.nama_barang, function( key, value ) {
+                        namaBarangField.next(".fv-plugins-message-container").append(`
                          <div data-field="name" data-validator="notEmpty" class="fv-help-block">${value}</div>`);
                     });
                 }
 
-                if (typeof data.username !== 'undefined') {
-                    $.each( data.username, function( key, value ) {
-                        usernameField.next(".fv-plugins-message-container").append(`
+                if (typeof data.nama_satuan !== 'undefined') {
+                    $.each( data.nama_satuan, function( key, value ) {
+                        satuanBarangField.next(".fv-plugins-message-container").append(`
                          <div data-field="username" data-validator="notEmpty" class="fv-help-block">${value}</div>`);
                     });
                 }
 
-                if (typeof data.password !== 'undefined') {
-                    $.each( data.password, function( key, value ) {
-                        passwordField.next(".fv-plugins-message-container").append(`
+                if (typeof data.jumlah_barang !== 'undefined') {
+                    $.each( data.jumlah_barang, function( key, value ) {
+                        jumlahBarangField.next(".fv-plugins-message-container").append(`
                          <div data-field="password" data-validator="notEmpty" class="fv-help-block">${value}</div>`);
                     });
                 }
 
-                if (typeof data.password_confirmation !== 'undefined') {
-                    $.each( data.password_confirmation, function( key, value ) {
-                        passwordConfirmationField.next(".fv-plugins-message-container").append(`
+                if (typeof data.harga_satuan !== 'undefined') {
+                    $.each( data.harga_satuan, function( key, value ) {
+                        hargaSatuanField.next(".fv-plugins-message-container").append(`
                          <div data-field="password_confirmation" data-validator="notEmpty" class="fv-help-block">${value}</div>`);
                     });
                 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use Module\AccountController;
 use Module\KontrakController;
 use Module\BarangController;
+use Module\PengirimanController;
 use App\Http\Controllers\Module\PerusahaanController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,12 +26,17 @@ Route::middleware(['guest'])->group(function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/Auth/Logout', [AuthController::class, 'logout'])->name("logout");
     Route::get('/', 'PagesController@index')->name("index");
+
+    Route::get('/Auth/Logout', [AuthController::class, 'logout'])->name("logout");
+
     Route::resource('Account', AccountController::class);
     Route::resource('Kontrak', KontrakController::class);
+    Route::resource('Pengiriman', PengirimanController::class);
+
     Route::post('/Perusahaan', [PerusahaanController::class,"store"])->name("Perusahaan.store");
     Route::get('/Perusahaan', [PerusahaanController::class,"index"])->name("Perusahaan.index");
+
     Route::get('/Barang', "Module\BarangController@create")->name("Barang.create");
-    Route::post('/Barang', [BarangController::class,"store"])->name("Barang.store");
+    Route::post('/Barang', "Module\BarangController@store")->name("Barang.store");
 });

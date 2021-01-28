@@ -27,10 +27,11 @@ class BarangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
-            'username' => 'required|max:255|unique:users,username',
-            'password' => 'required|confirmed',
-            'status' => 'required|string',
+            'nama_barang' => 'required',
+            'nama_satuan' => 'required',
+            'harga_satuan' => 'required',
+            'jumlah_barang' => 'required',
+            'nota_pembelian' => "|max:10000|mimes:pdf",
         ]);
 
         $user = new User();

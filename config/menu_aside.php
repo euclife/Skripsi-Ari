@@ -44,7 +44,7 @@ return [
             'title' => 'Pengiriman Barang',
             'root' => true,
             'icon' => 'media/svg/icons/Shopping/Box1.svg', // or can be 'flaticon-home' or any flaticon-*
-            'page' => '#',
+            'page' => 'Pengiriman',
             'new-tab' => false,
         ],
 
