@@ -167,7 +167,7 @@ class KontrakController extends Controller
     public function update(Request $request, $id)
     {
         $kontrak = Kontrak::findOrFail($id);
-
+        dd($request->all());
         $request->validate([
             'id' => 'required|uuid',
             'perusahaan' => 'required|max:255',
@@ -176,8 +176,8 @@ class KontrakController extends Controller
             'nomor' => 'required',
             'tanggal_surat_pesanan' => 'required',
             'tanggal_serah_terima' => 'required',
-            'file_dokumen_perjanjian' => 'required|file|mimes:jpg,jpeg,bmp,png,pdf',
-            'file_dokumen_invoice' => 'required|file|mimes:jpg,jpeg,bmp,png,pdf',
+            'file_dokumen_perjanjian' => 'file|mimes:jpg,jpeg,bmp,png,pdf',
+            'file_dokumen_invoice' => 'file|mimes:jpg,jpeg,bmp,png,pdf',
             'barang.*.id' => 'nullable|uuid',
             'barang.*.nama_barang' => 'required',
             'barang.*.jumlah_barang' => 'required',

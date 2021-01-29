@@ -8,7 +8,7 @@
 {{-- Content --}}
 @section('content')
     <form class="form" id="form">
-        <input style="display: none" id="id" name="id" value="{{$kontrak->id}}">
+        <input style="display: none" name="id" value="{{$kontrak->id}}">
         <div class="card card-custom">
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                 <div class="card-title">
@@ -382,9 +382,6 @@
 
                     file_dokumen_invoice: {
                         validators: {
-                            notEmpty: {
-                                message: 'Dokumen Invoice harus di isi'
-                            },
                             file: {
                                 extension: 'pdf,jpg,png',
                                 type: 'image/jpeg,image/png,pdf',
@@ -396,9 +393,6 @@
 
                     file_dokumen_perjanjian: {
                         validators: {
-                            notEmpty: {
-                                message: 'File Perjanjian harus di isi'
-                            },
                             file: {
                                 extension: 'pdf,jpg,png',
                                 type: 'image/jpeg,image/png,pdf',
@@ -566,7 +560,7 @@
             }
 
             function ajaxPost() {
-                console.log(formData)
+                console.log(formData[0]);
                 $.ajax({
                     url: '{{route("Kontrak.update",$kontrak->id)}}',
                     type: 'PUT',
@@ -850,7 +844,7 @@
                     if (status === "Valid") {
                         Swal.fire({
                             title: 'Apa anda yakin?',
-                            text: "Anda akan membuat kontrak baru!",
+                            text: "Anda akan memperbarui kontrak!",
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonText: 'Ya',
