@@ -33,10 +33,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('Account', AccountController::class);
     Route::resource('Kontrak', KontrakController::class);
     Route::resource('Pengiriman', PengirimanController::class);
+    Route::resource('Barang', BarangController::class);
 
     Route::post('/Perusahaan', [PerusahaanController::class,"store"])->name("Perusahaan.store");
     Route::get('/Perusahaan', [PerusahaanController::class,"index"])->name("Perusahaan.index");
-
-    Route::get('/Barang', "Module\BarangController@create")->name("Barang.create");
-    Route::post('/Barang', "Module\BarangController@store")->name("Barang.store");
 });

@@ -8,6 +8,19 @@ use Illuminate\Http\Request;
 class BarangController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $page_title = 'Barang';
+        $page_description = 'Halaman Tambah Data Barang';
+
+        return view('pages.barang.index', compact('page_title', 'page_description'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      */

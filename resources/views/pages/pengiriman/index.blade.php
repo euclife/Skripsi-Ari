@@ -7,8 +7,8 @@
     <div class="card card-custom">
         <div class="card-header flex-wrap border-0 pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label">Table Kontrak
-                    <div class="text-muted pt-2 font-size-sm">Table data Kontrak</div>
+                <h3 class="card-label">Table Pengiriman
+                    <div class="text-muted pt-2 font-size-sm">Table data pengiriman</div>
                 </h3>
             </div>
             <div class="card-toolbar">
@@ -101,7 +101,7 @@
                         </g>
                     </svg>
                     <!--end::Svg Icon-->
-                </span>Tambah Pengiriman Baru</a>
+                </span>Tambah Pengiriman Barang</a>
                 <!--end::Button-->
             </div>
         </div>
@@ -124,7 +124,22 @@
                 </tr>
                 </thead>
                 <tbody>
-
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                            </div>
+                        </td>
+                        <td>PT. Indominco</td>
+                        <td>Jl. Diponegoro</td>
+                        <td>022-255214</td>
+                        <td>10</td>
+                        <td>15</td>
+                        <td>Rp. 700.000</td>
+                        <td>21/12/2020</td>
+                        <td></td>
+                    </tr>
                 </tbody>
             </table>
 

@@ -121,7 +121,44 @@
                 </tr>
                 </thead>
                 <tbody>
-
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <div class="row p-1">
+                            <a href="#" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
+                                <i class="flaticon2-edit"></i>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-light-primary btn-circle btn-sm mr-2">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                            </div>
+                        </td>
+                        <td>PT. Indominco</td>
+                        <td>Jl . Diponegoro No. 21</td>
+                        <td>022-220205</td>
+                        <td>-</td>
+                        <td>Sedang Dikerjakan</td>
+                        <td>Di Pending</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            <div class="row p-1">
+                                <a href="#" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
+                                    <i class="flaticon2-edit"></i>
+                                </a>
+                                <a href="#" class="btn btn-icon btn-light-primary btn-circle btn-sm mr-2">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </div>
+                        </td>
+                        <td>PT. </td>
+                        <td>Jl . Diponegoro No. 21</td>
+                        <td>022-220205</td>
+                        <td>-</td>
+                        <td>Sedang Dikerjakan</td>
+                        <td>Di Pending</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -162,62 +199,62 @@
         });
 
         let table = $('#kt_datatable').DataTable({
-            ajax: '{{ route('Kontrak.index') }}',
-            responsive: "true",
-            processing: "true",
-            serverSide: "true",
-            columns: [
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                }, {
-                    data: 'id',
-                    className: "text-center",
-                    searchable: false,
-                    orderable: false,
-                    render: function (data, type, row) {
-                        $html = `<a href="${row.edit}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
-									<i class="flaticon2-edit"></i>
-								  </a>`;
-                        $html += `<a href="${row.show}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
-									<i class="fa fa-eye"></i>
-								  </a>`;
-                        $html += `<button type="button" data-url="${row.delete}" class="btnDelete btn btn-icon btn-light-danger btn-circle btn-sm mr-2">
-									<i class="flaticon2-delete"></i>
-								  </button>`;
-                        return $html;
-                    }
-                },
-                {
-                    data: 'perusahaan.nama',
-                    name: 'perusahaan.nama'
-                },
-                {
-                    data: 'perusahaan.alamat',
-                    name: 'perusahaan.alamat'
-                },
-                {
-                    data: 'perusahaan.nomor_telepon',
-                    name: 'perusahaan.nomor_telepon'
-                },
-                {
-                    data: 'tgl_serah_terima',
-                    name: 'tgl_serah_terima'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
-                },
-                {
-                    data: 'keterangan',
-                    name: 'keterangan'
-                }
-            ],
-            initComplete: function () {
-                // $("#btnExport").on("click", function () {
-                //     tableData.button('.excelButton').trigger();
-                // });
-            }
+            {{--ajax: '{{ route('Kontrak.index') }}',--}}
+            {{--responsive: "true",--}}
+            {{--processing: "true",--}}
+            {{--serverSide: "true",--}}
+            {{--columns: [--}}
+            {{--    {--}}
+            {{--        data: 'DT_RowIndex',--}}
+            {{--        name: 'DT_RowIndex',--}}
+            {{--    }, {--}}
+            {{--        data: 'id',--}}
+            {{--        className: "text-center",--}}
+            {{--        searchable: false,--}}
+            {{--        orderable: false,--}}
+            {{--        render: function (data, type, row) {--}}
+            {{--            $html = `<a href="${row.edit}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">--}}
+			{{--						<i class="flaticon2-edit"></i>--}}
+			{{--					  </a>`;--}}
+            {{--            $html += `<a href="${row.show}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">--}}
+			{{--						<i class="fa fa-eye"></i>--}}
+			{{--					  </a>`;--}}
+            {{--            $html += `<button type="button" data-url="${row.delete}" class="btnDelete btn btn-icon btn-light-danger btn-circle btn-sm mr-2">--}}
+			{{--						<i class="flaticon2-delete"></i>--}}
+			{{--					  </button>`;--}}
+            {{--            return $html;--}}
+            {{--        }--}}
+            {{--    },--}}
+            {{--    {--}}
+            {{--        data: 'perusahaan.nama',--}}
+            {{--        name: 'perusahaan.nama'--}}
+            {{--    },--}}
+            {{--    {--}}
+            {{--        data: 'perusahaan.alamat',--}}
+            {{--        name: 'perusahaan.alamat'--}}
+            {{--    },--}}
+            {{--    {--}}
+            {{--        data: 'perusahaan.nomor_telepon',--}}
+            {{--        name: 'perusahaan.nomor_telepon'--}}
+            {{--    },--}}
+            {{--    {--}}
+            {{--        data: 'tgl_serah_terima',--}}
+            {{--        name: 'tgl_serah_terima'--}}
+            {{--    },--}}
+            {{--    {--}}
+            {{--        data: 'status',--}}
+            {{--        name: 'status'--}}
+            {{--    },--}}
+            {{--    {--}}
+            {{--        data: 'keterangan',--}}
+            {{--        name: 'keterangan'--}}
+            {{--    }--}}
+            {{--],--}}
+            {{--initComplete: function () {--}}
+            {{--    // $("#btnExport").on("click", function () {--}}
+            {{--    //     tableData.button('.excelButton').trigger();--}}
+            {{--    // });--}}
+            {{--}--}}
         });
 
         $('#kt_datatable tbody').on('click', '.btnDelete', function () {
