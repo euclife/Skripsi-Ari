@@ -138,7 +138,8 @@
                         <td>15</td>
                         <td>Rp. 700.000</td>
                         <td>21/12/2020</td>
-                        <td></td>
+                        <td>Budi</td>
+                        <td>-</td>
                     </tr>
                 </tbody>
             </table>
