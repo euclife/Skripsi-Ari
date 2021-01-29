@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
+use App\Models\Kontrak;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PagesController extends Controller
 {
@@ -10,8 +13,16 @@ class PagesController extends Controller
     {
         $page_title = 'Dashboard';
         $page_description = 'Some description for the page';
+        $totalKontrak = Kontrak::count();
+        $totalBarang = Barang::count();
+        $totalPengiriman = 0;
+        $totalBiayaKontrak = Barang::sum(DB::raw('jumlah * harga'));
 
-        return view('pages.dashboard', compact('page_title', 'page_description'));
+        $kontrak = Kontrak::where("status","Dalam Pengerjaan")->orderBy("created_at","DESC")->take(5)->get();
+
+        return view('pages.dashboard', compact(
+            'page_title',
+            'page_description','kontrak','totalBiayaKontrak','totalBarang','totalBarang','totalPengiriman','totalKontrak'));
     }
 
     /**

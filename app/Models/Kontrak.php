@@ -5,6 +5,7 @@ namespace App\Models;
 use GoldSpecDigital\LaravelEloquentUUID\Database\Eloquent\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Kontrak extends Model
 {
@@ -34,6 +35,14 @@ class Kontrak extends Model
     public function barang()
     {
         return $this->hasMany(Barang::class,'id_kontrak', 'id');
+    }
+
+    /**
+     * Get the phone associated with the Barang.
+     */
+    public function jumlah_barang()
+    {
+        return $this->hasMany(Barang::class,'id_kontrak', 'id')->selectRaw('SUM(jumlah)');
     }
 
     /**

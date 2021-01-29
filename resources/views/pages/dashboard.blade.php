@@ -4,20 +4,20 @@
 {{-- Content --}}
 @section('content')
 
-{{-- Dashboard 1 --}}
+    {{-- Dashboard 1 --}}
 
-<div class="row">
-    <div class="col-lg-12">
-        <div class="col-xl-12">
-            <div class="row">
-                <div class="col-xl-3">
-                    <!--begin::Tiles Widget 11-->
-                    <div class="card card-custom bg-success gutter-b" style="height: 150px">
-                        <div class="card-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-xl-12">
+                <div class="row">
+                    <div class="col-xl-3">
+                        <!--begin::Tiles Widget 11-->
+                        <div class="card card-custom bg-success gutter-b" style="height: 150px">
+                            <div class="card-body">
                             <span class="svg-icon svg-icon-3x svg-icon-white ml-n2">
                                 <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24"></rect>
                                         <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"></rect>
@@ -28,20 +28,22 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <div class="text-inverse-success font-weight-bolder font-size-h2 mt-3">790</div>
-                            <a href="#" class="text-inverse-success font-weight-bold font-size-lg mt-1">Total Kontrak</a>
+                                <div
+                                    class="text-inverse-success font-weight-bolder font-size-h2 mt-3">{{$totalKontrak}}</div>
+                                <a href="#" class="text-inverse-success font-weight-bold font-size-lg mt-1">Total
+                                    Kontrak</a>
+                            </div>
                         </div>
+                        <!--end::Tiles Widget 11-->
                     </div>
-                    <!--end::Tiles Widget 11-->
-                </div>
-                <div class="col-xl-3">
-                    <!--begin::Tiles Widget 12-->
-                    <div class="card card-custom gutter-b" style="height: 150px">
-                        <div class="card-body">
+                    <div class="col-xl-3">
+                        <!--begin::Tiles Widget 12-->
+                        <div class="card card-custom gutter-b" style="height: 150px">
+                            <div class="card-body">
                             <span class="svg-icon svg-icon-3x svg-icon-success">
                                 <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Group.svg-->
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <polygon points="0 0 24 0 24 24 0 24"></polygon>
                                         <path
@@ -54,20 +56,22 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <div class="text-dark font-weight-bolder font-size-h2 mt-3">8,600</div>
-                            <a href="#" class="text-muted text-hover-primary font-weight-bold font-size-lg mt-1">Total Biaya Kontrak</a>
+                                <div class="text-dark font-weight-bolder font-size-h2 mt-3">
+                                    Rp {{number_format($totalBiayaKontrak)}}</div>
+                                <a href="#" class="text-muted text-hover-primary font-weight-bold font-size-lg mt-1">Total
+                                    Biaya Kontrak</a>
+                            </div>
                         </div>
+                        <!--end::Tiles Widget 12-->
                     </div>
-                    <!--end::Tiles Widget 12-->
-                </div>
-                <div class="col-xl-3">
-                    <!--begin::Tiles Widget 11-->
-                    <div class="card card-custom bg-success gutter-b" style="height: 150px">
-                        <div class="card-body">
+                    <div class="col-xl-3">
+                        <!--begin::Tiles Widget 11-->
+                        <div class="card card-custom bg-success gutter-b" style="height: 150px">
+                            <div class="card-body">
                             <span class="svg-icon svg-icon-3x svg-icon-white ml-n2">
                                 <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24"></rect>
                                         <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"></rect>
@@ -78,20 +82,22 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <div class="text-inverse-success font-weight-bolder font-size-h2 mt-3">790</div>
-                            <a href="#" class="text-inverse-success font-weight-bold font-size-lg mt-1">Total Barang yang di pesan</a>
+                                <div
+                                    class="text-inverse-success font-weight-bolder font-size-h2 mt-3">{{ $totalBarang }}</div>
+                                <a href="#" class="text-inverse-success font-weight-bold font-size-lg mt-1">Total Barang
+                                    yang di pesan</a>
+                            </div>
                         </div>
+                        <!--end::Tiles Widget 11-->
                     </div>
-                    <!--end::Tiles Widget 11-->
-                </div>
-                <div class="col-xl-3">
-                    <!--begin::Tiles Widget 11-->
-                    <div class="card card-custom bg-success gutter-b" style="height: 150px">
-                        <div class="card-body">
+                    <div class="col-xl-3">
+                        <!--begin::Tiles Widget 11-->
+                        <div class="card card-custom bg-success gutter-b" style="height: 150px">
+                            <div class="card-body">
                             <span class="svg-icon svg-icon-3x svg-icon-white ml-n2">
                                 <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Layout/Layout-4-blocks.svg-->
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                         <rect x="0" y="0" width="24" height="24"></rect>
                                         <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"></rect>
@@ -102,20 +108,67 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <div class="text-inverse-success font-weight-bolder font-size-h2 mt-3">20</div>
-                            <a href="#" class="text-inverse-success font-weight-bold font-size-lg mt-1">Total Pengiriman</a>
+                                <div
+                                    class="text-inverse-success font-weight-bolder font-size-h2 mt-3">{{$totalPengiriman}}</div>
+                                <a href="#" class="text-inverse-success font-weight-bold font-size-lg mt-1">Total
+                                    Pengiriman</a>
+                            </div>
+                        </div>
+                        <!--end::Tiles Widget 11-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card card-custom mt-2">
+                    <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                        <div class="card-title text-center">
+                            <h3 class="card-label text-center">Prioritas Kontrak
+                            </h3>
                         </div>
                     </div>
-                    <!--end::Tiles Widget 11-->
+
+                    <div class="card-body flex-wrap border-0 pt-6 pb-0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="kt_datatable">
+                                <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Progres Pengiriman</th>
+                                    <th>Nama Perusahaan</th>
+                                    <th>Alamat Perusahaan</th>
+                                    <th>No Telp</th>
+                                    <th>Jumlah barang yang telah di kirim</th>
+                                    <th>Jumlah barang yang telah di pesan</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($kontrak as $key => $data)
+                                        <tr onclick="window.location='{{route("Kontrak.show",$data->id)}}';">
+                                            <td>{{(1+$key)}}</td>
+                                            <td>
+                                                <div class="progress">
+                                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                                </div>
+                                            </td>
+                                            <td>{{$data->perusahaan->nama}}</td>
+                                            <td>{{$data->perusahaan->alamat}}</td>
+                                            <td>{{$data->perusahaan->nomor_telepon}}</td>
+                                            <td>0</td>
+                                            <td>{{$data->jumlah_barang[0]->sum}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 @endsection
 
 {{-- Scripts Section --}}
 @section('scripts')
-<script src="{{ asset('js/pages/widgets.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/pages/widgets.js') }}" type="text/javascript"></script>
 @endsection
