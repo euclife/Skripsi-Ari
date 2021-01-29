@@ -19,7 +19,7 @@ class CreateTableFileKontrakInvoice extends Migration
             $table->text("original_name");
             $table->text("file_name");
             $table->foreignUuid("created_by")->references("id")->on("users");
-            $table->foreignUuid("updated_by")->references("id")->on("users");
+            $table->foreignUuid("updated_by")->nullable()->references("id")->on("users");
             $table->timestamps();
         });
     }

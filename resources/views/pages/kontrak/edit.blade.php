@@ -8,11 +8,12 @@
 {{-- Content --}}
 @section('content')
     <form class="form" id="form">
+        <input style="display: none" id="id" name="id" value="{{$kontrak->id}}">
         <div class="card card-custom">
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                 <div class="card-title">
-                    <h3 class="card-label">Tambah Kontrak
-                        <div class="text-muted pt-2 font-size-sm">Tambah Kontrak</div>
+                    <h3 class="card-label">Edit Kontrak
+                        <div class="text-muted pt-2 font-size-sm">Edit Kontrak</div>
                     </h3>
                 </div>
             </div>
@@ -21,7 +22,8 @@
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Perusahaan *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <div class="input-group">
-                            <select id="perusahaan_field" class="form-control select2" name="perusahaan">
+                            <select id="perusahaan_field" class="form-control select2"
+                                    data-value="{{$kontrak->perusahaan->id}}" name="perusahaan">
                                 <option></option>
                             </select>
                             <span></span>
@@ -42,7 +44,7 @@
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Kontrak Tentang *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <textarea type="text" id="tentang_field" class="form-control" name="tentang"
-                                  placeholder="Masukkan tentang kontrak"></textarea>
+                                  placeholder="Masukkan tentang kontrak">{{$kontrak->tentang}}</textarea>
                     </div>
                 </div>
 
@@ -50,7 +52,7 @@
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Nomor Kontrak *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <input type="text" id="nomor_field" class="form-control" name="nomor"
-                               placeholder="Masukkan nomor kontrak"/>
+                               placeholder="Masukkan nomor kontrak" value="{{$kontrak->nomor}}"/>
                     </div>
                 </div>
 
@@ -59,6 +61,7 @@
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <input type="text" id="tanggal_surat_pesanan_field" class="form-control" readonly
                                name="tanggal_surat_pesanan"
+                               value="{{ \Carbon\Carbon::parse($kontrak->tanggal_surat_pesanan)->format("d/m/Y") }}"
                                placeholder="Pilih Tanggal"/>
                     </div>
                 </div>
@@ -68,6 +71,7 @@
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <input type="text" id="tanggal_serah_terima_field" class="form-control" readonly
                                name="tanggal_serah_terima"
+                               value="{{ \Carbon\Carbon::parse($kontrak->tanggal_serah_terima_barang)->format("d/m/Y") }}"
                                placeholder="Pilih Tanggal"/>
                     </div>
                 </div>
@@ -78,6 +82,9 @@
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <input type="file" id="file_dokumen_surat_perjanjian" class="form-control"
                                name="file_dokumen_perjanjian">
+                        <span>
+                              <a href="{{asset("uploads/perjanjian/". $kontrak->perjanjian->file_name)}}">{{$kontrak->perjanjian->original_name}}</a>
+                        </span>
                     </div>
                 </div>
 
@@ -85,20 +92,23 @@
                     <label class="col-form-label text-right col-lg-3 col-sm-12">File Dokumen Invoice *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <input type="file" id="file_dokumen_invoice" class="form-control" name="file_dokumen_invoice">
+                        <span>
+                              <a href="{{asset("uploads/invoices/". $kontrak->invoice->file_name)}}">{{$kontrak->invoice->original_name}}</a>
+                        </span>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Status</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" disabled id="" class="form-control" value="Dalam Pengerjaan">
+                        <input type="text" disabled id="" class="form-control" value="{{$kontrak->status}}">
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Keterangan</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <textarea type="file" id="keterangan_field" class="form-control" name="keterangan"></textarea>
+                        <textarea type="file" id="keterangan_field" class="form-control" name="keterangan">{{$kontrak->keterangan}}</textarea>
                     </div>
                 </div>
 
@@ -123,36 +133,40 @@
 
             <div class="card-body flex-wrap border-0 pt-6 pb-0">
                 <div class="form" id="formBarang">
+                    @foreach($kontrak->barang as $key => $barang)
                     <div class="form-group row">
                         <div class="col-lg-3">
                             <label>Nama Barang:</label>
-                            <input type="text" class="form-control" name="barang[0][nama_barang]" placeholder=""/>
+                            <input type="text" class="form-control" name="barang[{{$key}}][nama_barang]" placeholder="" value="{{$barang->nama}}"/>
                         </div>
                         <div class="col-lg-2">
                             <label>Jumlah Barang : </label>
-                            <input type="number" class="form-control jumlah_barang" onchange="kalkulasitotal(this)" id="jumlah_barang"
-                                   name="barang[0][jumlah_barang]"/>
+                            <input type="number" class="form-control jumlah_barang" onchange="kalkulasitotal(this)"
+                                   id="jumlah_barang" value="{{$barang->jumlah}}"
+                                   name="barang[{{$key}}][jumlah_barang]"/>
                         </div>
                         <div class="col-lg-2">
                             <label>Satuan:</label>
-                            <input type="text" class="form-control" id="satuan" placeholder="ex : kg, cm, pcs, dll"
-                                   name="barang[0][satuan]"/>
+                            <input type="text" class="form-control" id="satuan" placeholder="ex : kg, cm, pcs, dll" value="{{$barang->satuan}}"
+                                   name="barang[{{$key}}][satuan]"/>
                         </div>
                         <div class="col-lg-2">
                             <label>Harga Satuan:</label>
-                            <input type="number" class="form-control harga_barang" onchange="kalkulasitotal(this)" name="barang[0][harga_satuan]"/>
+                            <input type="number" class="form-control harga_barang" onchange="kalkulasitotal(this)" value="{{$barang->harga}}"
+                                   name="barang[0][harga_satuan]"/>
                         </div>
                         <div class="col-lg-2">
                             <label>Total Harga:</label>
-                            <input type="text" class="form-control total" readonly id="" name="barang[0][total_harga]"/>
+                            <input type="text" class="form-control total" readonly id="" name="barang[0][total_harga]" value="{{($barang->harga * $barang->jumlah)}}"/>
                         </div>
                         <div class="col-lg-1">
                             <label></label>
                             <button type="button" class="btn btn-danger mt-2 btnHapusBarang" onclick="hapusBarang(this)"
-                                    data-id="0">Hapus
+                                    data-id="{{$key}}">Hapus
                             </button>
                         </div>
                     </div>
+                    @endforeach
                 </div>
                 <div class="form-group row">
                     <div class="col-lg-12 ml-lg-auto mb-3 mx-auto">
@@ -164,7 +178,7 @@
 
                 <div class="form-group row mt-5">
                     <div class="col-lg-12 ml-lg-auto mb-3 mx-auto text-center">
-                        <button type="button" id="btnSubmit" class="btn btn-warning font-weight-bold mr-2">Simpan
+                        <button type="button" id="btnSubmit" class="btn btn-warning font-weight-bold mr-2">Perbarui
                         </button>
                     </div>
                 </div>
@@ -299,7 +313,7 @@
         let keteranganField = $("#keterangan_field");
 
         let btnTambahBarang = $("#btnTambahBarang");
-        let detailBarang = 1;
+        let detailBarang = {{ count($kontrak->barang) }};
 
         let btnSubmit = $("#btnSubmit");
 
@@ -324,7 +338,7 @@
             let jumlah = $(elem).parents(".form-group").find(".jumlah_barang").val();
             let harga = $(elem).parents(".form-group").find(".harga_barang").val();
 
-            if(jumlah != null && jumlah !==""&&harga != null && harga !==""){
+            if (jumlah != null && jumlah !== "" && harga != null && harga !== "") {
                 $(elem).parents(".form-group").find(".total").val((jumlah * harga));
             }
         }
@@ -410,6 +424,7 @@
                     }),
                 }
             });
+
             const fvPerusahaan = FormValidation.formValidation(formPerusahaanValidation, {
                 fields: {
                     nama: {
@@ -553,8 +568,8 @@
             function ajaxPost() {
                 console.log(formData)
                 $.ajax({
-                    url: '{{route("Kontrak.store")}}',
-                    type: 'POST',
+                    url: '{{route("Kontrak.update",$kontrak->id)}}',
+                    type: 'PUT',
                     data: new FormData(formData[0]),
                     contentType: false,
                     processData: false,
@@ -640,12 +655,12 @@
                             icon: 'error',
                             title: 'Ada sesuatu yang salah'
                         })
-
                     },
                     complete: function () {
                         perusahaanField.select2({
                             placeholder: "Pilih Perusahaan",
-                        }).trigger("change");
+                        });
+                        perusahaanField.val(perusahaanField.data("value")).trigger("change");
                     }
                 });
             }

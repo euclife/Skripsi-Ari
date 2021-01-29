@@ -27,4 +27,30 @@ class Kontrak extends Model
     {
         return $this->hasOne(Perusahaan::class,'id', 'id_perusahaan');
     }
+
+    /**
+     * Get the phone associated with the Barang.
+     */
+    public function barang()
+    {
+        return $this->hasMany(Barang::class,'id_kontrak', 'id');
+    }
+
+    /**
+     * Get the phone associated with the Barang.
+     */
+    public function invoice()
+    {
+        return $this->hasOne(FileKontrakInvoice::class,'id_kontrak', 'id');
+    }
+
+    /**
+     * Get the phone associated with the Barang.
+     */
+    public function perjanjian()
+    {
+        return $this->hasOne(FileKontrakPerjanjian::class,'id_kontrak', 'id');
+    }
+
+
 }

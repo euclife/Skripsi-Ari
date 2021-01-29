@@ -15,8 +15,8 @@ class CreateTableUserRoles extends Migration
     {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->foreignUuid('user_id')->references("id")->on("users")->nullOnDelete();
-            $table->foreignUuid('role_id')->references("id")->on("roles")->nullOnDelete();
+            $table->foreignUuid('id_user')->references("id")->on("users")->nullOnDelete();
+            $table->foreignUuid('id_role')->references("id")->on("roles")->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -20,6 +20,8 @@ class CreateTableKontrak extends Migration
             $table->text("nomor");
             $table->date('tanggal_surat_pesanan');
             $table->date('tanggal_serah_terima_barang');
+            $table->string('status')->default("Dalam Pengerjaan");
+            $table->text('keterangan')->nullable();
             $table->foreignUuid("created_by")->references("id")->on("users");
             $table->foreignUuid("updated_by")->nullable()->references("id")->on("users");
             $table->foreignUuid("deleted_by")->nullable()->references("id")->on("users");
