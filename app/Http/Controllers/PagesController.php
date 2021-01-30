@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Kontrak;
+use App\Models\Pengiriman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,8 +16,9 @@ class PagesController extends Controller
         $page_description = 'Some description for the page';
         $totalKontrak = Kontrak::count();
         $totalBarang = Barang::count();
-        $totalPengiriman = 0;
+        $totalPengiriman = Pengiriman::sum('jumlah');
         $totalBiayaKontrak = Barang::sum(DB::raw('jumlah * harga'));
+
 
         $kontrak = Kontrak::where("status","Dalam Pengerjaan")->orderBy("created_at","DESC")->take(5)->get();
 

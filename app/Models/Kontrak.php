@@ -38,11 +38,11 @@ class Kontrak extends Model
     }
 
     /**
-     * Get the phone associated with the Barang.
+     * Get all of the deployments for the project.
      */
-    public function jumlah_barang()
+    public function total_dikirim()
     {
-        return $this->hasMany(Barang::class,'id_kontrak', 'id')->selectRaw('SUM(jumlah)');
+        return $this->hasManyThrough(Barang::class, Pengiriman::class,"id","id",'id_kontrak','id_barang');
     }
 
     /**

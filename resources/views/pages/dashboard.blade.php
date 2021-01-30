@@ -153,8 +153,8 @@
                                             <td>{{$data->perusahaan->nama}}</td>
                                             <td>{{$data->perusahaan->alamat}}</td>
                                             <td>{{$data->perusahaan->nomor_telepon}}</td>
-                                            <td>0</td>
-                                            <td>{{$data->jumlah_barang[0]->sum}}</td>
+                                            <td>{{$data->total_dikirim()->sum("pengiriman.jumlah")}}</td>
+                                            <td>{{$data->barang()->sum("jumlah")}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
