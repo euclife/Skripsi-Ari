@@ -10,7 +10,6 @@ class PengirimanController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -23,18 +22,20 @@ class PengirimanController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        $page_title = 'Pengiriman';
+        $page_description = 'Buat Pengiriman';
+
+        return view('pages.pengiriman.create', compact('page_title', 'page_description'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+
      */
     public function store(Request $request)
     {
@@ -49,7 +50,10 @@ class PengirimanController extends Controller
      */
     public function show($id)
     {
-        //
+        $page_title = 'Pengiriman';
+        $page_description = 'Buat Pengiriman';
+
+        return view('pages.pengiriman.detail', compact('page_title', 'page_description'));
     }
 
     /**
@@ -60,7 +64,10 @@ class PengirimanController extends Controller
      */
     public function edit($id)
     {
-        //
+        $page_title = 'Pengiriman';
+        $page_description = 'Edit Pengiriman';
+
+        return view('pages.pengiriman.edit', compact('page_title', 'page_description'));
     }
 
     /**

@@ -125,44 +125,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>
-                            <a href="#" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
-                                <i class="flaticon2-edit"></i>
-                            </a>
-                        </td>
-                        <td>25</td>
-                        <td>Kg</td>
-                        <td>Keyboard</td>
-                        <td>PT. Mandiri</td>
-                        <td>Rp. 25.000</td>
-                        <td>Rp.100.000</td>
-                        <td>21/01/2020</td>
-                        <td>21/01/2020</td>
-                        <td>Admin 1</td>
-                        <td>Admin 1</td>
-                        <td><a href="#">image.jpg</a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>
-                            <a href="#" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
-                                <i class="flaticon2-edit"></i>
-                            </a>
-                        </td>
-                        <td>20</td>
-                        <td>Pcs</td>
-                        <td>Muse</td>
-                        <td>PT. Indominco</td>
-                        <td>Rp. 10.000</td>
-                        <td>Rp. 25.000</td>
-                        <td>19/01/2020</td>
-                        <td>18/01/2020</td>
-                        <td>Admin 1</td>
-                        <td>Admin 1</td>
-                        <td><a href="#">image.jpg</a></td>
-                    </tr>
+
                 </tbody>
             </table>
 
@@ -203,57 +166,97 @@
         });
 
         let table = $('#kt_datatable').DataTable({
-            {{--ajax: '{{ route('Kontrak.index') }}',--}}
-            {{--responsive: "true",--}}
-            {{--processing: "true",--}}
-            {{--serverSide: "true",--}}
-            // columns: [
-            //     {
-            //         data: 'DT_RowIndex',
-            //         name: 'DT_RowIndex',
-            //     }, {
-            //         data: 'id',
-            //         className: "text-center",
-            //         searchable: false,
-            //         orderable: false,
-            //         render: function (data, type, row) {
-            //             $html = `<a href="${row.edit}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
-            // 						<i class="flaticon2-edit"></i>
-            // 					  </a>`;
-            //             $html += `<a href="${row.show}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
-            // 						<i class="fa fa-eye"></i>
-            // 					  </a>`;
-            //             $html += `<button type="button" data-url="${row.delete}" class="btnDelete btn btn-icon btn-light-danger btn-circle btn-sm mr-2">
-            // 						<i class="flaticon2-delete"></i>
-            // 					  </button>`;
-            //             return $html;
-            //         }
-            //     },
-            //     {
-            //         data: 'perusahaan.nama',
-            //         name: 'perusahaan.nama'
-            //     },
-            //     {
-            //         data: 'perusahaan.alamat',
-            //         name: 'perusahaan.alamat'
-            //     },
-            //     {
-            //         data: 'perusahaan.nomor_telepon',
-            //         name: 'perusahaan.nomor_telepon'
-            //     },
-            //     {
-            //         data: 'tgl_serah_terima',
-            //         name: 'tgl_serah_terima'
-            //     },
-            //     {
-            //         data: 'status',
-            //         name: 'status'
-            //     },
-            //     {
-            //         data: 'keterangan',
-            //         name: 'keterangan'
-            //     }
-            // ],
+            ajax: '{{ route('Barang.index') }}',
+            responsive: "true",
+            processing: "true",
+            serverSide: "true",
+            columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable : false,
+                    searchable: false,
+                },
+                {
+                    data: 'id',
+                    className: "text-center",
+                    searchable: false,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        $html = `<a href="${row.edit}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
+            						<i class="flaticon2-edit"></i>
+            					  </a>`;
+                        $html += `<a href="${row.show}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
+            						<i class="fa fa-eye"></i>
+            					  </a>`;
+                        $html += `<button type="button" data-url="${row.delete}" class="btnDelete btn btn-icon btn-light-danger btn-circle btn-sm mr-2">
+            						<i class="flaticon2-delete"></i>
+            					  </button>`;
+                        return $html;
+                    }
+                },
+                {
+                    data: 'jumlah',
+                    name: 'jumlah',
+                },
+                {
+                    data: 'satuan',
+                    name: 'satuan',
+                },
+                {
+                    data: 'nama',
+                    name: 'nama',
+                },
+                {
+                    data: 'harga',
+                    name: 'harga',
+                    render: function (data, type, row) {
+                        return "Rp. " + data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+                },
+                {
+                    data: 'harga',
+                    render: function (data, type, row) {
+                        let sum = data * row.jumlah;
+                        return "Rp. " + sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
+                },
+                {
+                    data: 'kontrak.perusahaan.nama',
+                    name: 'kontrak.perusahaan.nama',
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at',
+                },
+                {
+                    data: 'updated_at',
+                    name: 'updated_at',
+                },
+                {
+                    data: 'creator.name',
+                    name: 'creator.name',
+                },
+                {
+                    data: 'updater',
+                    name: 'updater',
+                    render: function (data, type, row) {
+                        if(data){
+                            return data.name;
+                        }
+                        return `-`;
+                    }
+                },
+                {
+                    data: 'nota',
+                    render: function (data, type, row) {
+                        if(data){
+                            return `<a target="_blank" href="{{asset('uploads/nota')}}/${data.file_name}">${data.original_name}</a>`;
+                        }
+                        return "-";
+                    }
+                },
+            ],
             initComplete: function () {
                 // $("#btnExport").on("click", function () {
                 //     tableData.button('.excelButton').trigger();

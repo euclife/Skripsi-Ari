@@ -551,7 +551,6 @@
             }
 
             function ajaxPost() {
-                console.log(formData)
                 $.ajax({
                     url: '{{route("Kontrak.store")}}',
                     type: 'POST',

@@ -16,28 +16,32 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Nama Barang *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="nama_barang_field" class="form-control" name="nama_barang" placeholder="Masukkan nama barang"/>
+                        <input type="text" id="nama_barang_field" class="form-control" name="nama_barang"
+                               placeholder="Masukkan nama barang"/>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Nama Satuan Barang *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="satuan_barang_field" class="form-control" name="satuan_barang" placeholder="Masukkan satuan barang"/>
+                        <input type="text" id="satuan_barang_field" class="form-control" name="nama_satuan"
+                               placeholder="Masukkan satuan barang"/>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Jumlah *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="number" id="jumlah_field" class="form-control" name="jumlah_barang" placeholder="Masukkan jumlah field"/>
+                        <input type="number" id="jumlah_field" class="form-control" name="jumlah_barang"
+                               placeholder="Masukkan jumlah field"/>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Harga Satuan *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="number" id="harga_satuan_field" class="form-control" name="harga_satuan" placeholder="Masukkan harga satuan barang"/>
+                        <input type="number" id="harga_satuan_field" class="form-control" name="harga_satuan"
+                               placeholder="Masukkan harga satuan barang"/>
                     </div>
                 </div>
 
@@ -51,14 +55,16 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Nota Pembelian Barang *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="file" id="nota_pembelian_field" class="form-control" name="nota_pembelian" readonly/>
+                        <input type="file" id="nota_pembelian_field" class="form-control" name="nota_pembelian"
+                               readonly/>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Dipesan oleh perusahaan *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <select type="text" id="nama_perusahaan_field" class="form-control select2" name="nama_perusahaan"> </select>
+                        <select type="text" id="nama_perusahaan_field" class="form-control select2"
+                                name="nama_perusahaan"> </select>
                     </div>
                 </div>
 
@@ -77,6 +83,8 @@
 @section("scripts")
     <script type="text/javascript">
         const form = document.getElementById('form');
+        const formData = $("#form");
+
         $(document).ready(function () {
             let namaBarangField = $("#nama_barang_field");
             let namaPerusahaanField = $("#nama_perusahaan_field");
@@ -86,9 +94,7 @@
             let notaPembelianBarang = $("#nota_pembelian_field");
             let jumlahBarangField = $("#jumlah_field");
             getPerusahaan();
-            const fv = FormValidation.formValidation(
-                form,
-                {
+            const fv = FormValidation.formValidation(form, {
                     fields: {
                         nama_barang: {
                             validators: {
@@ -127,6 +133,12 @@
                                 notEmpty: {
                                     message: 'Nota pembelian harus di isi'
                                 },
+                                file: {
+                                    extension: 'pdf,jpg,png',
+                                    type: 'image/jpeg,image/png,pdf',
+                                    maxSize: 2097152,   // 2048 * 1024
+                                    message: 'File harus berupa pdf/gambar dan tidak boleh lebh dari 2mb'
+                                },
                             }
                         },
 
@@ -152,12 +164,11 @@
                             checkDigit: 'callback',
                         }),
                     }
-                }
-            );
+                });
 
             function getPerusahaan() {
                 $.ajax({
-                    url: '{{route("Perusahaan.index")}}',
+                    url: '{{route("Perusahaan.index")}}?contract=t',
                     type: 'GET',
                     dataType: 'JSON',
                     beforeSend: function () {
@@ -185,6 +196,14 @@
                 });
             }
 
+            hargaSatuanField.change(function (){
+                setTotal();
+            });
+
+            jumlahBarangField.change(function (){
+                setTotal();
+            });
+
             $('#btnSubmit').click(function () {
                 fv.validate().then(function (status) {
                     if (status === "Valid") {
@@ -204,22 +223,21 @@
                 });
             });
 
-            function ajaxPost(){
-                var fd = new FormData();
-                var files = notaPembelianBarang[0].files[0];
-                fd.append('nota_pembelian',files);
-                fd.append('nama_barang',namaBarangField.val());
-                fd.append('nama_satuan',satuanBarangField.val());
-                fd.append('harga_satuan',hargaSatuanField.val());
-                fd.append('jumlah_barang',jumlah.val());
+            function setTotal(){
+                if(jumlahBarangField.val() != null && jumlahBarangField.val() !== "" && hargaSatuanField.val() != null && hargaSatuanField.val() !== "" )
+                    totalField.val((jumlahBarangField.val() * hargaSatuanField.val()));
+                else totalField.val(0);
+            }
+
+            function ajaxPost() {
                 $.ajax({
                     url: '{{route("Barang.store")}}',
                     type: 'POST',
                     cache: false,
                     contentType: false,
                     processData: false,
-                    data: form_data,
-                    beforeSend : function () {
+                    data: new FormData(formData[0]),
+                    beforeSend: function () {
                         KTApp.blockPage({
                             overlayColor: '#000000',
                             state: 'danger',
@@ -235,7 +253,7 @@
                             }
                         })
                     },
-                    error : function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Ada sesuatu yang salah'
@@ -246,41 +264,27 @@
                             setError(obj.errors);
                         }
                     },
-                    complete: function(){
+                    complete: function () {
                         KTApp.unblockPage();
                     }
                 });
             }
 
-            function setError(data){
-                if (typeof data.nama_barang !== 'undefined') {
-                    $.each( data.nama_barang, function( key, value ) {
-                        namaBarangField.next(".fv-plugins-message-container").append(`
-                         <div data-field="name" data-validator="notEmpty" class="fv-help-block">${value}</div>`);
+            function setTextError(name, selector) {
+                if (typeof name !== 'undefined') {
+                    $.each(name, function (key, value) {
+                        selector.next(".fv-plugins-message-container").append(`
+						 <div data-field="name" data-validator="notEmpty" class="fv-help-block">${value}</div>`);
                     });
                 }
+            }
 
-                if (typeof data.nama_satuan !== 'undefined') {
-                    $.each( data.nama_satuan, function( key, value ) {
-                        satuanBarangField.next(".fv-plugins-message-container").append(`
-                         <div data-field="username" data-validator="notEmpty" class="fv-help-block">${value}</div>`);
-                    });
-                }
-
-                if (typeof data.jumlah_barang !== 'undefined') {
-                    $.each( data.jumlah_barang, function( key, value ) {
-                        jumlahBarangField.next(".fv-plugins-message-container").append(`
-                         <div data-field="password" data-validator="notEmpty" class="fv-help-block">${value}</div>`);
-                    });
-                }
-
-                if (typeof data.harga_satuan !== 'undefined') {
-                    $.each( data.harga_satuan, function( key, value ) {
-                        hargaSatuanField.next(".fv-plugins-message-container").append(`
-                         <div data-field="password_confirmation" data-validator="notEmpty" class="fv-help-block">${value}</div>`);
-                    });
-                }
-
+            function setError(data) {
+                setTextError(data.nama_barang,namaBarangField);
+                setTextError(data.nama_satuan,satuanBarangField);
+                setTextError(data.jumlah_barang,jumlahBarangField);
+                setTextError(data.harga_satuan,hargaSatuanField);
+                setTextError(data.nota_pembelian,notaPembelianBarang);
             }
         });
     </script>

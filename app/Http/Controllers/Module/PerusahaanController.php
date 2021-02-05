@@ -9,8 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class PerusahaanController extends Controller
 {
-    public function index(Request $request){
-        $perusahaan = Perusahaan::all();
+    public function index(Request $request)
+    {
+        if ($request->contract == "t")
+            $perusahaan = Perusahaan::select('kontrak.id','perusahaan.nama')
+                ->leftJoin('kontrak', 'perusahaan.id', '=', 'kontrak.id_perusahaan')->get();
+        else    $perusahaan = Perusahaan::all();
+
         return response()->json([
             "status" => 200,
             "message" => "success",
@@ -18,7 +23,8 @@ class PerusahaanController extends Controller
         ], 200);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $request->validate([
             'nama' => 'required|string',
