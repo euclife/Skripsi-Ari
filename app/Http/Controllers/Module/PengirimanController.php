@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Module;
 
 use App\Http\Controllers\Controller;
+use App\Models\DetailPengiriman;
+use App\Models\Pengiriman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PengirimanController extends Controller
 {
@@ -39,7 +42,35 @@ class PengirimanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'jumlah' => 'required|integer',
+            'keterangan' => 'nullable|string',
+            'tanggal_pengiriman' => 'required|max:255',
+            'nama_penerima' => 'required',
+            'dokumen' => 'required|file|mnimes:jpg,jpeg,bmp,png,pdf',
+            'barang.*.id_barang' => 'required|uuid',
+            'barang.*.jumlah' => 'required|integer',
+        ]);
+
+        $pengiriman = new Pengiriman();
+        $pengiriman->jumlah = $request->pengiriman;
+        $pengiriman->tanggal_pengiriman = $request->tanggal_pengiriman;
+        $pengiriman->nama_penerima = $request->nama_penerima;
+        $pengiriman->created_by = Auth::id();
+        $pengiriman->save();
+
+        foreach($request->barang as $key => $value){
+            $barang = new DetailPengiriman();
+            $barang->id_barang = $value->id_barang;
+            $barang->jumlah_kirim = $value->jumlah_kirim;
+            $barang->save();
+        }
+
+        return response()->json([
+            "status" => 200,
+            "message" => "success",
+            "data" => $pengiriman
+        ],200);
     }
 
     /**

@@ -23,14 +23,6 @@ class Barang extends Model
     /**
      * Get the phone associated with the pengiriman.
      */
-    public function pengiriman()
-    {
-        return $this->hasMany(Perusahaan::class,'id_barang', 'id');
-    }
-
-    /**
-     * Get the phone associated with the pengiriman.
-     */
     public function nota()
     {
         return $this->hasOne(FileNotaBarang::class,'id_barang', 'id');

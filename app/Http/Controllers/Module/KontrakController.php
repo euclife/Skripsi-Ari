@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Module;
 
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
+use App\Models\DetailPengiriman;
 use App\Models\FileKontrakInvoice;
 use App\Models\FileKontrakPerjanjian;
 use App\Models\Kontrak;
+use App\Models\Pengiriman;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +74,7 @@ class KontrakController extends Controller
             'nomor' => 'required',
             'tanggal_surat_pesanan' => 'required',
             'tanggal_serah_terima' => 'required',
-            'file_dokumen_perjanjian' => 'required|file|mimes:jpg,jpeg,bmp,png,pdf',
+            'file_dokumen_perjanjian' => 'required|file|mnimes:jpg,jpeg,bmp,png,pdf',
             'file_dokumen_invoice' => 'required|file|mimes:jpg,jpeg,bmp,png,pdf',
             'barang.*.nama_barang' => 'required',
             'barang.*.jumlah_barang' => 'required',
@@ -139,6 +141,41 @@ class KontrakController extends Controller
         $page_title = 'Detail Kontrak';
         $page_description = 'Detail Kontrak';
 
+        if (request()->ajax()) {
+            $kontrak = Kontrak::with(["perusahaan", "barang"])->findOrFail($id);
+            $barang = [];
+            foreach($kontrak->barang as $key => $value){
+                $barang[$key]["id"] = $value->id;
+                $barang[$key]["nama"] = $value->nama;
+                $barang[$key]["satuan"] = $value->satuan;
+                $barang[$key]["jumlah"] = $value->jumlah;
+                $barang[$key]["harga"] = $value->harga;
+                $barang[$key]["dikirim"] = 0;
+            }
+
+            $pengiriman = Pengiriman::where("id_kontrak", $kontrak->id)->get();
+            foreach ($pengiriman as $item) {
+                $detailPengiriman = DetailPengiriman::where("id_pengiriman", $item)->get();
+                foreach ($detailPengiriman as $pengirim) {
+                    foreach ($barang as $key => $value) {
+                        if ($value["id"] == $pengirim->id_barang){
+                            $barang[$key]["dikirim"] += $pengirim->jumlah_kirim;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return response()->json([
+                "status" => 200,
+                "message" => "success",
+                "data" => [
+                    "kontrak" =>$kontrak,
+                    "barang" => $barang
+                ]
+            ]);
+        }
+
         return view('pages.kontrak.detail', compact('page_title', 'page_description', "kontrak"));
 
     }
@@ -155,7 +192,7 @@ class KontrakController extends Controller
         $page_description = 'Edit Kontrak';
         $kontrak = Kontrak::findOrFail($id);
 
-        return view('pages.kontrak.edit', compact('page_title', 'page_description','kontrak'));
+        return view('pages.kontrak.edit', compact('page_title', 'page_description', 'kontrak'));
     }
 
     /**
@@ -167,7 +204,6 @@ class KontrakController extends Controller
     public function update(Request $request, $id)
     {
         $kontrak = Kontrak::findOrFail($id);
-        dd($request->all());
         $request->validate([
             'id' => 'required|uuid',
             'perusahaan' => 'required|max:255',

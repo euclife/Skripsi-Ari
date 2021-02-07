@@ -21,9 +21,9 @@
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Perusahaan *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <div class="input-group">
-                            <input id="perusahaan_field" class="form-control select2" name="perusahaan">
+                            <select id="perusahaan_field" class="form-control select2" name="perusahaan">
                                 <option></option>
-                            </input>
+                            </select>
                             <span></span>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Status</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" disabled id="status" class="form-control">
+                        <input type="text" disabled id="statusField" class="form-control">
                     </div>
                 </div>
 
@@ -74,15 +74,6 @@
                         <textarea type="file" id="keterangan_field" disabled class="form-control"></textarea>
                     </div>
                 </div>
-
-                <!-- <div class="form-group row">
-                    <label class="col-form-label text-right col-lg-3 col-sm-12">Total *</label>
-                    <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="total" readonly class="form-control" name="total"
-                               placeholder="0"/>
-                    </div>
-                </div> -->
-
             </div>
         </div>
 
@@ -117,69 +108,44 @@
         <div class="card card-custom">
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                 <div class="card-title">
-                    <h3 class="card-label">Tambah Pengiriman
-                        <div class="text-muted pt-2 font-size-sm">Tambah Pengiriman</div>
+                    <h3 class="card-label">Detail Pengiriman
+                        <div class="text-muted pt-2 font-size-sm">Detail Pengiriman</div>
                     </h3>
                 </div>
             </div>
             <div class="card-body flex-wrap border-0 pt-6 pb-0">
                 <div class="form-group row">
-                    <label class="col-form-label text-right col-lg-3 col-sm-12">Perusahaan *</label>
+                    <label class="col-form-label text-right col-lg-3 col-sm-12">Tanggal Pengiriman *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <div class="input-group">
-                            <input id="perusahaan_field" class="form-control select2" name="perusahaan">
-                            <option></option>
-                            </input>
-                            <span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-form-label text-right col-lg-3 col-sm-12">Kontrak Tentang</label>
-                    <div class="col-lg-9 col-md-9 col-sm-12">
-                        <textarea type="text" disabled id="tentang_field" class="form-control"
-                                  placeholder="Masukkan tentang kontrak"></textarea>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-form-label text-right col-lg-3 col-sm-12">Nomor Kontrak</label>
-                    <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="nomor_field" class="form-control"
-                               placeholder="Masukkan nomor kontrak" disabled/>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-form-label text-right col-lg-3 col-sm-12">Tanggal Tentang Surat Pesanan *</label>
-                    <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="tanggal_surat_pesanan_field" class="form-control" readonly
-                               placeholder="Pilih Tanggal" disabled/>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-form-label text-right col-lg-3 col-sm-12">Tanggal Serah Terima Barang *</label>
-                    <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="tanggal_serah_terima_field" class="form-control" readonly
+                        <input type="text" id="tanggal_pengiriman_field" class="form-control" readonly
                                placeholder="Pilih Tanggal"/>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-form-label text-right col-lg-3 col-sm-12">Nama Penerima</label>
+                    <label class="col-form-label text-right col-lg-3 col-sm-12">Nama Penerima *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text"  id="nama_penerima_field" name="nama_penerima" class="form-control">
+                        <input type="text" id="nama_penerima_field" class="form-control"
+                               placeholder="Masukkan nama penerima"/>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Keterangan</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <textarea type="file" id="keterangan_pengiriman_field"  name="keterangan" class="form-control"></textarea>
+                        <textarea type="text" id="keterangan_pengiriman_field" class="form-control"
+                                  placeholder="Keterangan"></textarea>
                     </div>
                 </div>
+
+                <div class="form-group row">
+                    <label class="col-form-label text-right col-lg-3 col-sm-12">Jumlah di kirim</label>
+                    <div class="col-lg-9 col-md-9 col-sm-12">
+                        <input type="text" id="jumlah_field" class="form-control"
+                               placeholder="Total di kirim"/>
+                    </div>
+                </div>
+
             </div>
         </div>
     </form>
@@ -198,6 +164,12 @@
         let tanggalSerahTerimaBarang = $("#tanggal_serah_terima_field");
         let tentangField = $("#tentang_field");
         let keteranganField = $("#keterangan_field");
+        let statusField = $("#statusField");
+        let nomorTeleponField = $("#modal_nomor_telepon_field");
+        let nomorKontrakField = $("#nomor_field");
+        let tanggalPengirimanField = $("#tanggal_pengiriman_field");
+        let namaPenerimaField = $("#nama_penerima_field");
+        let keteranganPengirimField = $("#keterangan_pengiriman_field");
 
         let btnTambahBarang = $("#btnTambahBarang");
         let detailBarang = 1;
@@ -221,7 +193,7 @@
             let jumlah = $(elem).parents(".form-group").find(".jumlah_barang").val();
             let harga = $(elem).parents(".form-group").find(".harga_barang").val();
 
-            if(jumlah != null && jumlah !==""&&harga != null && harga !==""){
+            if (jumlah != null && jumlah !== "" && harga != null && harga !== "") {
                 $(elem).parents(".form-group").find(".total").val((jumlah * harga));
             }
         }
@@ -236,46 +208,6 @@
                             },
                         }
                     },
-
-                    tentang: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Tentang harus di isi'
-                            },
-                        }
-                    },
-
-                    nomor: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Nomor Kontrak harus di isi'
-                            },
-                        }
-                    },
-
-                    tanggal_surat_pesanan: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Tanggal Surat Pesanan harus di isi'
-                            },
-                        }
-                    },
-
-
-                    file_dokumen_perjanjian: {
-                        validators: {
-                            notEmpty: {
-                                message: 'File Perjanjian harus di isi'
-                            },
-                            file: {
-                                extension: 'pdf,jpg,png',
-                                type: 'image/jpeg,image/png,pdf',
-                                maxSize: 2097152,   // 2048 * 1024
-                                message: 'File harus berupa pdf/gambar dan tidak boleh lebh dari 2mb'
-                            },
-                        }
-                    },
-
                 },
 
                 plugins: { //Learn more: https://formvalidation.io/guide/plugins
@@ -294,7 +226,7 @@
             });
 
 
-            function addBarang (id,nama,jumlah,satuan,harga,kirim) {
+            function addBarang(id, nama, jumlah, satuan, harga, kirim) {
                 $("#formBarang").append(`
 					<div class="form-group row">
 						<div class="col-lg-3">
@@ -319,7 +251,7 @@
 						</div>
 						<div class="col-lg-2">
 							<label>Jumlah Kirim</label>
-							<input type="text" class="form-control total" readonly id="satuan" name="barang[${detailBarang}][kirim]"/>
+							<input type="text" max="${kirim}" class="form-control total" readonly id="satuan" name="barang[${detailBarang}][kirim]"/>
 						</div>
 					</div>`);
                 detailBarang++;
@@ -401,7 +333,7 @@
 
             function getPerusahaan() {
                 $.ajax({
-                    url: '{{route("Perusahaan.index")}}?contract=f',
+                    url: '{{route("Perusahaan.index")}}?contract=t',
                     type: 'GET',
                     dataType: 'JSON',
                     beforeSend: function () {
@@ -429,24 +361,43 @@
             }
 
             perusahaanField.change(function () {
-                if (perusahaanField.val() != null && perusahaanField.val() !== ""){
-
+                if (perusahaanField.val() != null && perusahaanField.val() !== "") {
+                    getDetailPerusahaan(perusahaanField.val());
+                } else {
+                    tentangField.val(null);
+                    nomorTeleponField.val(null);
+                    tanggalSerahTerimaBarang.val(null);
+                    tanggalSuratPesananField.val(null);
+                    statusField.val(null);
+                    keteranganField.val(null);
                 }
             });
 
-            function getDetailPerusahaan(id){
+            function getDetailPerusahaan(id) {
                 $.ajax({
-                    url: '{{route("Kontrak.show",'')}}',
+                    url: `{{route("Kontrak.show",'')}}/${id}`,
                     type: 'GET',
                     dataType: 'JSON',
                     beforeSend: function () {
-                        perusahaanField.empty().append(`<option></option>`).select2({
-                            placeholder: "Loading...",
+                        KTApp.blockPage({
+                            overlayColor: '#000000',
+                            state: 'danger',
+                            message: 'Tunggu sebentar...'
                         });
                     },
                     success: function (result) {
-                        $.each(result.data, function (index, item) {
-                            perusahaanField.append(`<option value="${item.id}" >${item.nama}</option>`);
+                        let data = result.data.kontrak;
+                        tentangField.val(data.tentang);
+                        nomorTeleponField.val(data.nomor);
+                        tanggalSerahTerimaBarang.val(data.tanggal_serah_terima_barang);
+                        tanggalSuratPesananField.val(data.tanggal_surat_pesanan);
+                        statusField.val(data.status);
+                        keteranganField.val(data.keterangan);
+                        nomorKontrakField.val(data.nomor);
+
+                        let barang = result.data.barang;
+                        $.each(barang, function (key, value) {
+                            addBarang(value.id,value.nama,value.jumlah,value.satuan, value.harga, (value.jumlah - value.dikirim));
                         });
                     },
                     error: function (xhr, status, error) {
@@ -456,16 +407,10 @@
                         })
                     },
                     complete: function () {
-                        perusahaanField.select2({
-                            placeholder: "Pilih Perusahaan",
-                        }).trigger("change");
+                        KTApp.unblockPage();
                     }
                 });
             }
-
-            perusahaanField.select2({
-                placeholder: "Pilih kontrak perusahaan",
-            });
 
             tanggalSuratPesananField.datepicker({
                 rtl: KTUtil.isRTL(),

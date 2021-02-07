@@ -13,9 +13,9 @@ class CreateTableFileKontrakPerjanjian extends Migration
      */
     public function up()
     {
-        Schema::create('file_kontrak_perjanjian', function (Blueprint $table) {
+        Schema::create('file_kontrak_pengiriman', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->foreignUuid("id_kontrak")->references("id")->on("kontrak");
+            $table->foreignUuid("id_pengiriman")->references("id")->on("kontrak");
             $table->text("original_name");
             $table->text("file_name");
             $table->foreignUuid("created_by")->references("id")->on("users");
@@ -31,6 +31,6 @@ class CreateTableFileKontrakPerjanjian extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_kontrak_perjanjian');
+        Schema::dropIfExists('file_kontrak_pengiriman');
     }
 }
