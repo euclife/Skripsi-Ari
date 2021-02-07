@@ -15,7 +15,7 @@ class CreateTablePengiriman extends Migration
     {
         Schema::create('pengiriman', function (Blueprint $table) {
             $table->uuid("id")->primary();
-            $table->foreignUuid("id_pengiriman")->references("id")->on("pengiriman");
+            $table->foreignUuid("id_kontrak")->references("id")->on("kontrak");
             $table->integer("jumlah");
             $table->date("tanggal_pengiriman");
             $table->string("nama_penerima");

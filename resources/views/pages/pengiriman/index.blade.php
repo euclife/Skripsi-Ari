@@ -111,36 +111,17 @@
                 <thead>
                 <tr>
                     <th>No</th>
-                    <th>Progres Pengiriman</th>
                     <th>Aksi</th>
                     <th>Nama Perusahaan</th>
                     <th>Alamat Perusahaan</th>
                     <th>No Telp</th>
                     <th>Jumlah barang yang telah di kirim</th>
-                    <th>Jumlah barang yang telah di pesan</th>
                     <th>Tanggal Pengiriman barang</th>
                     <th>Nama peneriman barang</th>
                     <th>Keterangan</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                            </div>
-                        </td>
-                        <td>PT. Indominco</td>
-                        <td>Jl. Diponegoro</td>
-                        <td>022-255214</td>
-                        <td>10</td>
-                        <td>15</td>
-                        <td>Rp. 700.000</td>
-                        <td>21/12/2020</td>
-                        <td>Budi</td>
-                        <td>-</td>
-                    </tr>
                 </tbody>
             </table>
 
@@ -181,57 +162,61 @@
         });
 
         let table = $('#kt_datatable').DataTable({
-            {{--ajax: '{{ route('Kontrak.index') }}',--}}
-            {{--responsive: "true",--}}
-            {{--processing: "true",--}}
-            {{--serverSide: "true",--}}
-            // columns: [
-            //     {
-            //         data: 'DT_RowIndex',
-            //         name: 'DT_RowIndex',
-            //     }, {
-            //         data: 'id',
-            //         className: "text-center",
-            //         searchable: false,
-            //         orderable: false,
-            //         render: function (data, type, row) {
-            //             $html = `<a href="${row.edit}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
-			// 						<i class="flaticon2-edit"></i>
-			// 					  </a>`;
-            //             $html += `<a href="${row.show}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
-			// 						<i class="fa fa-eye"></i>
-			// 					  </a>`;
-            //             $html += `<button type="button" data-url="${row.delete}" class="btnDelete btn btn-icon btn-light-danger btn-circle btn-sm mr-2">
-			// 						<i class="flaticon2-delete"></i>
-			// 					  </button>`;
-            //             return $html;
-            //         }
-            //     },
-            //     {
-            //         data: 'perusahaan.nama',
-            //         name: 'perusahaan.nama'
-            //     },
-            //     {
-            //         data: 'perusahaan.alamat',
-            //         name: 'perusahaan.alamat'
-            //     },
-            //     {
-            //         data: 'perusahaan.nomor_telepon',
-            //         name: 'perusahaan.nomor_telepon'
-            //     },
-            //     {
-            //         data: 'tgl_serah_terima',
-            //         name: 'tgl_serah_terima'
-            //     },
-            //     {
-            //         data: 'status',
-            //         name: 'status'
-            //     },
-            //     {
-            //         data: 'keterangan',
-            //         name: 'keterangan'
-            //     }
-            // ],
+            ajax: '{{ route('Pengiriman.index') }}',
+            responsive: "true",
+            processing: "true",
+            serverSide: "true",
+            columns: [
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    searchable: false,
+                    orderable: false
+                }, {
+                    data: 'id',
+                    className: "text-center",
+                    searchable: false,
+                    orderable: false,
+                    render: function (data, type, row) {
+                        $html = ``;
+                        $html += `<a href="${row.show}" class="btn btn-icon btn-light-success btn-circle btn-sm mr-2">
+									<i class="fa fa-eye"></i>
+								  </a>`;
+                        $html += `<button type="button" data-url="${row.delete}" class="btnDelete btn btn-icon btn-light-danger btn-circle btn-sm mr-2">
+									<i class="flaticon2-delete"></i>
+								  </button>`;
+                        return $html;
+                    }
+                },
+                {
+                    data: 'kontrak.perusahaan.nama',
+                    name: 'kontrak.perusahaan.nama'
+                },
+                {
+                    data: 'kontrak.perusahaan.alamat',
+                    name: 'kontrak.perusahaan.alamat'
+                },
+                {
+                    data: 'kontrak.perusahaan.nomor_telepon',
+                    name: 'kontrak.perusahaan.nomor_telepon'
+                },
+                {
+                    data: 'jumlah',
+                    name: 'jumlah'
+                },
+                {
+                    data: 'tanggal',
+                    name: 'tanggal'
+                },
+                {
+                    data: 'nama_penerima',
+                    name: 'nama_penerima'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                }
+            ],
             initComplete: function () {
                 // $("#btnExport").on("click", function () {
                 //     tableData.button('.excelButton').trigger();

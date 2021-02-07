@@ -11,8 +11,8 @@
         <div class="card card-custom">
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                 <div class="card-title">
-                    <h3 class="card-label">Tambah Pengiriman
-                        <div class="text-muted pt-2 font-size-sm">Tambah Pengiriman</div>
+                    <h3 class="card-label">Lihat Pengiriman
+                        <div class="text-muted pt-2 font-size-sm">Lihat Pengiriman</div>
                     </h3>
                 </div>
             </div>
@@ -21,9 +21,7 @@
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Perusahaan *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <div class="input-group">
-                            <select id="perusahaan_field" class="form-control select2" name="perusahaan">
-                                <option></option>
-                            </select>
+                            <input disabled id="perusahaan_field" class="form-control" name="perusahaan" value="{{$pengiriman->kontrak->perusahaan->nama}}">
                             <span></span>
                         </div>
                     </div>
@@ -33,14 +31,14 @@
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Kontrak Tentang</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
                         <textarea type="text" disabled id="tentang_field" class="form-control"
-                                  placeholder="Masukkan tentang kontrak"></textarea>
+                                  placeholder="Masukkan tentang kontrak">{{$pengiriman->kontrak->tentang}}</textarea>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Nomor Kontrak</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="nomor_field" class="form-control"
+                        <input type="text" id="nomor_field" class="form-control" value="{{$pengiriman->kontrak->nomor}}"
                                placeholder="Masukkan nomor kontrak" disabled/>
                     </div>
                 </div>
@@ -48,7 +46,7 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Tanggal Tentang Surat Pesanan *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="tanggal_surat_pesanan_field" class="form-control" readonly
+                        <input type="text" id="tanggal_surat_pesanan_field" class="form-control" value="{{$pengiriman->kontrak->tanggal_surat_pesanan}}"
                                placeholder="Pilih Tanggal" disabled/>
                     </div>
                 </div>
@@ -56,7 +54,7 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Tanggal Serah Terima Barang *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="tanggal_serah_terima_field" class="form-control" readonly
+                        <input type="text" id="tanggal_serah_terima_field" class="form-control"  disabled value="{{$pengiriman->kontrak->tanggal_serah_terima_barang}}"
                                placeholder="Pilih Tanggal"/>
                     </div>
                 </div>
@@ -64,14 +62,14 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Status</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" disabled id="statusField" class="form-control">
+                        <input type="text" disabled id="statusField" class="form-control" value="{{$pengiriman->kontrak->status}}">
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Keterangan</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <textarea type="file" id="keterangan_field" disabled class="form-control"></textarea>
+                        <textarea type="file" id="keterangan_field" disabled class="form-control">{{$pengiriman->kontrak->keterangan}}</textarea>
                     </div>
                 </div>
             </div>
@@ -87,6 +85,35 @@
 
             <div class="card-body flex-wrap border-0 pt-6 pb-0">
                 <div class="form" id="formBarang">
+                    @foreach($pengiriman->detail_pengiriman as $value)
+                        <div class="form-group row">
+                            <input type="text" class="form-control" style="display: none" value="${id}" name="barang[${detailBarang}][id]" />
+                            <div class="col-lg-3">
+                                <label>Nama Barang:</label>
+                                <input type="text" class="form-control" value="{{$value->barang->nama}}" disabled/>
+                            </div>
+                            <div class="col-lg-2">
+                                <label>Jumlah Barang : </label>
+                                <input type="number" class="form-control" disabled onchange="kalkulasitotal(this)" value="{{$value->barang->jumlah}}"/>
+                            </div>
+                            <div class="col-lg-1">
+                                <label>Satuan:</label>
+                                <input type="text" class="form-control" disabled placeholder="ex : kg, cm, pcs, dll" value="{{$value->barang->satuan}}"/>
+                            </div>
+                            <div class="col-lg-2">
+                                <label>Harga Satuan:</label>
+                                <input type="number" class="form-control" disabled onchange="kalkulasitotal(this)" value="{{$value->barang->harga}}"/>
+                            </div>
+                            <div class="col-lg-2">
+                                <label>Total Harga:</label>
+                                <input type="text" class="form-control" disabled value="{{$value->barang->jumlah * $value->barang->harga}}"/>
+                            </div>
+                            <div class="col-lg-2">
+                                <label>Jumlah Kirim</label>
+                                <input type="number" max="${kirim}" disabled class="form-control jumlah_kirim" onchange="setJumlah()" name="barang[${detailBarang}][kirim]" value="{{$value->jumlah_kirim}}"/>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
                 <div class="form-group row">
                 </div>
@@ -105,7 +132,7 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Tanggal Pengiriman *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="tanggal_pengiriman_field" name="tanggal_pengiriman" class="form-control" readonly
+                        <input type="text" id="tanggal_pengiriman_field" disabled name="tanggal_pengiriman" class="form-control" value="{{$pengiriman->tanggal_pengiriman}}"
                                placeholder="Pilih Tanggal"/>
                     </div>
                 </div>
@@ -113,7 +140,7 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Nama Penerima *</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="nama_penerima_field" class="form-control" name="nama_penerima"
+                        <input type="text" id="nama_penerima_field" class="form-control" disabled name="nama_penerima" value="{{$pengiriman->nama_penerima}}"
                                placeholder="Masukkan nama penerima"/>
                     </div>
                 </div>
@@ -121,15 +148,15 @@
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Keterangan</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <textarea type="text" id="keterangan_pengiriman_field" class="form-control"
-                                  placeholder="Keterangan"></textarea>
+                        <textarea type="text" id="keterangan_pengiriman_field" class="form-control" disabled
+                                  placeholder="Keterangan">{{$pengiriman->keterangan}}</textarea>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <label class="col-form-label text-right col-lg-3 col-sm-12">Jumlah di kirim</label>
                     <div class="col-lg-9 col-md-9 col-sm-12">
-                        <input type="text" id="jumlah_field" class="form-control" name="jumlah" readonly
+                        <input type="text" id="jumlah_field" class="form-control" name="jumlah" disabled value="{{$pengiriman->jumlah}}"
                                placeholder="Total di kirim"/>
                     </div>
                 </div>
@@ -264,7 +291,7 @@
             };
 
             function onStart() {
-                getPerusahaan();
+                // getPerusahaan();
             }
 
             function ajaxPost() {

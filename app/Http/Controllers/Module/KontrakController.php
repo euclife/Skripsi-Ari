@@ -137,7 +137,6 @@ class KontrakController extends Controller
      */
     public function show($id)
     {
-        $kontrak = Kontrak::findOrFail($id);
         $page_title = 'Detail Kontrak';
         $page_description = 'Detail Kontrak';
 
@@ -155,7 +154,7 @@ class KontrakController extends Controller
 
             $pengiriman = Pengiriman::where("id_kontrak", $kontrak->id)->get();
             foreach ($pengiriman as $item) {
-                $detailPengiriman = DetailPengiriman::where("id_pengiriman", $item)->get();
+                $detailPengiriman = DetailPengiriman::where("id_pengiriman", $item->id)->get();
                 foreach ($detailPengiriman as $pengirim) {
                     foreach ($barang as $key => $value) {
                         if ($value["id"] == $pengirim->id_barang){
@@ -175,6 +174,8 @@ class KontrakController extends Controller
                 ]
             ]);
         }
+
+        $kontrak = Kontrak::findOrFail($id);
 
         return view('pages.kontrak.detail', compact('page_title', 'page_description', "kontrak"));
 

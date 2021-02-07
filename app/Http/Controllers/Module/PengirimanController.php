@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Module;
 use App\Http\Controllers\Controller;
 use App\Models\DetailPengiriman;
 use App\Models\Pengiriman;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class PengirimanController extends Controller
 {
@@ -18,6 +20,24 @@ class PengirimanController extends Controller
     {
         $page_title = 'Pengiriman';
         $page_description = 'List Pengiriman';
+
+        if (request()->ajax()) {
+            $datas = Pengiriman::with('kontrak.perusahaan');
+            return DataTables::of($datas)
+                ->addIndexColumn()
+                ->addColumn('tanggal', function ($data) {
+                    return Carbon::parse($data->tanggal_pengiriman)->format("'d/m/Y'");
+                })->addColumn('edit', function ($data) {
+                    return route("Pengiriman.edit", $data->id);
+                })
+                ->addColumn('show', function ($data) {
+                    return route("Pengiriman.show", $data->id);
+                })
+                ->addColumn('delete', function ($data) {
+                    return route("Pengiriman.destroy", $data->id);
+                })
+                ->make(true);
+        }
 
         return view('pages.pengiriman.index', compact('page_title', 'page_description'));
     }
@@ -47,13 +67,14 @@ class PengirimanController extends Controller
             'keterangan' => 'nullable|string',
             'tanggal_pengiriman' => 'required|max:255',
             'nama_penerima' => 'required',
-            'dokumen' => 'required|file|mnimes:jpg,jpeg,bmp,png,pdf',
-            'barang.*.id_barang' => 'required|uuid',
-            'barang.*.jumlah' => 'required|integer',
+//            'dokumen' => 'required|file|mnimes:jpg,jpeg,bmp,png,pdf',
+            'barang.*.id' => 'required|uuid',
+            'barang.*.kirim' => 'required|integer',
         ]);
 
         $pengiriman = new Pengiriman();
-        $pengiriman->jumlah = $request->pengiriman;
+        $pengiriman->id_kontrak = $request->perusahaan;
+        $pengiriman->jumlah = $request->jumlah;
         $pengiriman->tanggal_pengiriman = $request->tanggal_pengiriman;
         $pengiriman->nama_penerima = $request->nama_penerima;
         $pengiriman->created_by = Auth::id();
@@ -61,14 +82,17 @@ class PengirimanController extends Controller
 
         foreach($request->barang as $key => $value){
             $barang = new DetailPengiriman();
-            $barang->id_barang = $value->id_barang;
-            $barang->jumlah_kirim = $value->jumlah_kirim;
+            $barang->id_pengiriman = $pengiriman->id;
+            $barang->id_barang = $value['id'];
+            $barang->jumlah_kirim = $value['kirim'];
+            $barang->created_by = Auth::id();
             $barang->save();
         }
 
         return response()->json([
             "status" => 200,
             "message" => "success",
+            "redirect" => route("Pengiriman.index"),
             "data" => $pengiriman
         ],200);
     }
@@ -83,8 +107,9 @@ class PengirimanController extends Controller
     {
         $page_title = 'Pengiriman';
         $page_description = 'Buat Pengiriman';
+        $pengiriman = Pengiriman::with('kontrak.perusahaan','detail_pengiriman.barang')->findOrFail($id);
 
-        return view('pages.pengiriman.detail', compact('page_title', 'page_description'));
+        return view('pages.pengiriman.detail', compact('page_title', 'page_description','pengiriman'));
     }
 
     /**

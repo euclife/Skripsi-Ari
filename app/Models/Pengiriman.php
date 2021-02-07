@@ -19,4 +19,20 @@ class Pengiriman extends Model
 
     public $incrementing = false;
     protected $keyType = 'string';
+
+    /**
+     * Get the phone associated with the pengiriman.
+     */
+    public function kontrak()
+    {
+        return $this->hasOne(Kontrak::class,'id', 'id_kontrak');
+    }
+
+    /**
+     * Get the phone associated with the pengiriman.
+     */
+    public function detail_pengiriman()
+    {
+        return $this->hasMany(DetailPengiriman::class,'id_pengiriman', 'id');
+    }
 }
