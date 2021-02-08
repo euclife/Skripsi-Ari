@@ -42,7 +42,7 @@ class Kontrak extends Model
      */
     public function total_dikirim()
     {
-        return $this->hasManyThrough(Pengiriman::class,DetailPengiriman::class, "id","id",'id_kontrak','id_barang');
+        return $this->hasMany(Pengiriman::class,'id_kontrak','id');
     }
 
 

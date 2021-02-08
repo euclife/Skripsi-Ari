@@ -12,6 +12,11 @@ use Yajra\DataTables\DataTables;
 
 class PengirimanController extends Controller
 {
+    private $kontrakController;
+    public function __construct()
+    {
+        $this->kontrakController = new KontrakController();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -69,7 +74,7 @@ class PengirimanController extends Controller
             'nama_penerima' => 'required',
 //            'dokumen' => 'required|file|mnimes:jpg,jpeg,bmp,png,pdf',
             'barang.*.id' => 'required|uuid',
-            'barang.*.kirim' => 'required|integer',
+            'barang.*.kirim' => 'nullable|integer',
         ]);
 
         $pengiriman = new Pengiriman();
@@ -81,13 +86,19 @@ class PengirimanController extends Controller
         $pengiriman->save();
 
         foreach($request->barang as $key => $value){
+            $dataKirim = 0;
+            if($value['kirim']) {
+                $dataKirim = $value['kirim'];
+            }
             $barang = new DetailPengiriman();
             $barang->id_pengiriman = $pengiriman->id;
             $barang->id_barang = $value['id'];
-            $barang->jumlah_kirim = $value['kirim'];
+            $barang->jumlah_kirim = $dataKirim;
             $barang->created_by = Auth::id();
             $barang->save();
         }
+
+        $this->kontrakController->setStatusKontrak($pengiriman->id_kontrak);
 
         return response()->json([
             "status" => 200,
@@ -148,4 +159,5 @@ class PengirimanController extends Controller
     {
         //
     }
+
 }

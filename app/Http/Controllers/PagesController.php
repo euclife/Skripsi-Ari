@@ -18,10 +18,7 @@ class PagesController extends Controller
         $totalBarang = Barang::count();
         $totalPengiriman = Pengiriman::sum('jumlah');
         $totalBiayaKontrak = Barang::sum(DB::raw('jumlah * harga'));
-
-
         $kontrak = Kontrak::where("status","Dalam Pengerjaan")->orderBy("created_at","DESC")->take(5)->get();
-
         return view('pages.dashboard', compact(
             'page_title',
             'page_description','kontrak','totalBiayaKontrak','totalBarang','totalBarang','totalPengiriman','totalKontrak'));

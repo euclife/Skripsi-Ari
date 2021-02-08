@@ -143,11 +143,14 @@
                                 </thead>
                                 <tbody>
                                     @foreach($kontrak as $key => $data)
+                                        @php
+                                           $rata = $data->total_dikirim()->sum("pengiriman.jumlah") / $data->total_dikirim()->sum("pengiriman.jumlah") + $data->barang()->sum("jumlah");
+                                        @endphp
                                         <tr onclick="window.location='{{route("Kontrak.show",$data->id)}}';">
                                             <td>{{(1+$key)}}</td>
                                             <td>
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                                    <div class="progress-bar" role="progressbar" style="width: {{$rata}}%;" aria-valuenow="{{$rata}}" aria-valuemin="0" aria-valuemax="100">{{$rata}}%</div>
                                                 </div>
                                             </td>
                                             <td>{{$data->perusahaan->nama}}</td>

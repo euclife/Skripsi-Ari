@@ -74,7 +74,7 @@ class KontrakController extends Controller
             'nomor' => 'required',
             'tanggal_surat_pesanan' => 'required',
             'tanggal_serah_terima' => 'required',
-            'file_dokumen_perjanjian' => 'required|file|mnimes:jpg,jpeg,bmp,png,pdf',
+            'file_dokumen_perjanjian' => 'required|file|mimes:jpg,jpeg,bmp,png,pdf',
             'file_dokumen_invoice' => 'required|file|mimes:jpg,jpeg,bmp,png,pdf',
             'barang.*.nama_barang' => 'required',
             'barang.*.jumlah_barang' => 'required',
@@ -309,5 +309,15 @@ class KontrakController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function setStatusKontrak($id_kontrak){
+        $kontrak = Kontrak::find($id_kontrak);
+        if($kontrak){
+            if($kontrak->total_dikirim()->sum("pengiriman.jumlah") == $kontrak->barang()->sum("jumlah")){
+                $kontrak->status = "SELESAI";
+                $kontrak->save();
+            }
+        }
     }
 }
