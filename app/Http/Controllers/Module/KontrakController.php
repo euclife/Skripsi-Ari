@@ -86,8 +86,8 @@ class KontrakController extends Controller
         $kontrak->id_perusahaan = $request->perusahaan;
         $kontrak->nomor = $request->nomor;
         $kontrak->tentang = $request->tentang;
-        $kontrak->tanggal_surat_pesanan = $request->tanggal_surat_pesanan;
-        $kontrak->tanggal_serah_terima_barang = $request->tanggal_serah_terima;
+        $kontrak->tanggal_surat_pesanan = Carbon::parse($request->tanggal_surat_pesanan);
+        $kontrak->tanggal_serah_terima_barang = Carbon::parse($request->tanggal_serah_terima);
         $kontrak->status = "Dalam Pengerjaan";
         $kontrak->keterangan = $request->keterangan;
         $kontrak->created_by = Auth::id();
@@ -143,7 +143,7 @@ class KontrakController extends Controller
         if (request()->ajax()) {
             $kontrak = Kontrak::with(["perusahaan", "barang"])->findOrFail($id);
             $barang = [];
-            foreach($kontrak->barang as $key => $value){
+            foreach ($kontrak->barang as $key => $value) {
                 $barang[$key]["id"] = $value->id;
                 $barang[$key]["nama"] = $value->nama;
                 $barang[$key]["satuan"] = $value->satuan;
@@ -157,7 +157,7 @@ class KontrakController extends Controller
                 $detailPengiriman = DetailPengiriman::where("id_pengiriman", $item->id)->get();
                 foreach ($detailPengiriman as $pengirim) {
                     foreach ($barang as $key => $value) {
-                        if ($value["id"] == $pengirim->id_barang){
+                        if ($value["id"] == $pengirim->id_barang) {
                             $barang[$key]["dikirim"] += $pengirim->jumlah_kirim;
                             break;
                         }
@@ -169,7 +169,7 @@ class KontrakController extends Controller
                 "status" => 200,
                 "message" => "success",
                 "data" => [
-                    "kontrak" =>$kontrak,
+                    "kontrak" => $kontrak,
                     "barang" => $barang
                 ]
             ]);
@@ -225,8 +225,8 @@ class KontrakController extends Controller
         $kontrak->id_perusahaan = $request->perusahaan;
         $kontrak->nomor = $request->nomor;
         $kontrak->tentang = $request->tentang;
-        $kontrak->tanggal_surat_pesanan = $request->tanggal_surat_pesanan;
-        $kontrak->tanggal_serah_terima_barang = $request->tanggal_serah_terima;
+        $kontrak->tanggal_surat_pesanan = Carbon::parse($request->tanggal_surat_pesanan);
+        $kontrak->tanggal_serah_terima_barang = Carbon::parse($request->tanggal_serah_terima);
         $kontrak->keterangan = $request->keterangan;
         $kontrak->updated_by = Auth::id();
         $kontrak->save();
@@ -311,10 +311,11 @@ class KontrakController extends Controller
         //
     }
 
-    public function setStatusKontrak($id_kontrak){
+    public function setStatusKontrak($id_kontrak)
+    {
         $kontrak = Kontrak::find($id_kontrak);
-        if($kontrak){
-            if($kontrak->total_dikirim()->sum("pengiriman.jumlah") >= $kontrak->barang()->sum("jumlah")){
+        if ($kontrak) {
+            if ($kontrak->total_dikirim()->sum("pengiriman.jumlah") >= $kontrak->barang()->sum("jumlah")) {
                 $kontrak->status = "SELESAI";
                 $kontrak->save();
             }

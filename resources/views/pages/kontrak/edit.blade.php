@@ -9,6 +9,7 @@
 @section('content')
     <form class="form" id="form">
         <input style="display: none" name="id" value="{{$kontrak->id}}">
+        {{ method_field('PUT') }}
         <div class="card card-custom">
             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                 <div class="card-title">
@@ -560,10 +561,9 @@
             }
 
             function ajaxPost() {
-                console.log(formData[0]);
                 $.ajax({
                     url: '{{route("Kontrak.update",$kontrak->id)}}',
-                    type: 'PUT',
+                    type: 'POST',
                     data: new FormData(formData[0]),
                     contentType: false,
                     processData: false,
