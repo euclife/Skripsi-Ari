@@ -40,23 +40,7 @@
                                 Choose an option:
                             </li>
                             <li class="navi-item">
-                                <a href="#" class="navi-link">
-                                    <span class="navi-icon">
-                                        <i class="la la-print"></i>
-                                    </span>
-                                    <span class="navi-text">Print</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-                                    <span class="navi-icon">
-                                        <i class="la la-copy"></i>
-                                    </span>
-                                    <span class="navi-text">Copy</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
+                                <a href="#" id="btnExportExcel" class="navi-link">
                                     <span class="navi-icon">
                                         <i class="la la-file-excel-o"></i>
                                     </span>
@@ -64,15 +48,7 @@
                                 </a>
                             </li>
                             <li class="navi-item">
-                                <a href="#" class="navi-link">
-                                    <span class="navi-icon">
-                                        <i class="la la-file-text-o"></i>
-                                    </span>
-                                    <span class="navi-text">CSV</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
+                                <a href="#" id="btnExportPdf" class="navi-link">
                                     <span class="navi-icon">
                                         <i class="la la-file-pdf-o"></i>
                                     </span>
@@ -170,6 +146,24 @@
             responsive: "true",
             processing: "true",
             serverSide: "true",
+            buttons: [
+                {
+                    extend: 'excel',
+                    className: 'excelButton d-none',
+                    title: '',
+                    exportOptions: {
+                        columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                    },
+                },
+                {
+                    extend: 'pdf',
+                    className: 'pdfButton d-none',
+                    title: '',
+                    exportOptions: {
+                        columns: [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                    },
+                }
+            ],
             columns: [
                 {
                     data: 'DT_RowIndex',
@@ -258,9 +252,13 @@
                 },
             ],
             initComplete: function () {
-                // $("#btnExport").on("click", function () {
-                //     tableData.button('.excelButton').trigger();
-                // });
+                $("#btnExportExcel").on("click", function () {
+                    table.button('.excelButton').trigger();
+                });
+
+                $("#btnExportPdf").on("click", function () {
+                    table.button('.pdfButton').trigger();
+                });
             }
         });
 

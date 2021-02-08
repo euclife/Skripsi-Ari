@@ -314,7 +314,7 @@ class KontrakController extends Controller
     public function setStatusKontrak($id_kontrak){
         $kontrak = Kontrak::find($id_kontrak);
         if($kontrak){
-            if($kontrak->total_dikirim()->sum("pengiriman.jumlah") == $kontrak->barang()->sum("jumlah")){
+            if($kontrak->total_dikirim()->sum("pengiriman.jumlah") >= $kontrak->barang()->sum("jumlah")){
                 $kontrak->status = "SELESAI";
                 $kontrak->save();
             }
