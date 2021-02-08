@@ -72,7 +72,7 @@ class PengirimanController extends Controller
             'keterangan' => 'nullable|string',
             'tanggal_pengiriman' => 'required|max:255',
             'nama_penerima' => 'required',
-//            'dokumen' => 'required|file|mnimes:jpg,jpeg,bmp,png,pdf',
+//            'dokumen' => 'required|file|mimes:jpg,jpeg,bmp,png,pdf',
             'barang.*.id' => 'required|uuid',
             'barang.*.kirim' => 'nullable|integer',
         ]);
@@ -80,7 +80,7 @@ class PengirimanController extends Controller
         $pengiriman = new Pengiriman();
         $pengiriman->id_kontrak = $request->perusahaan;
         $pengiriman->jumlah = $request->jumlah;
-        $pengiriman->tanggal_pengiriman = $request->tanggal_pengiriman;
+        $pengiriman->tanggal_pengiriman = Carbon::parse($request->tanggal_pengiriman);
         $pengiriman->nama_penerima = $request->nama_penerima;
         $pengiriman->created_by = Auth::id();
         $pengiriman->save();
