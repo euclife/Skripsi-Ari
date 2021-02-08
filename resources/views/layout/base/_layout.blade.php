@@ -44,7 +44,7 @@
     @endif
 
     @if (config('layout.extras.notifications.layout') == 'offcanvas')
-        @include('layout.partials.extras.offcanvas._quick-notifications')
+        live
     @endif
 
     @if (config('layout.extras.quick-actions.layout') == 'offcanvas')

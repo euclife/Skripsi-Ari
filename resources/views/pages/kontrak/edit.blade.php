@@ -384,10 +384,9 @@
                     file_dokumen_invoice: {
                         validators: {
                             file: {
-                                extension: 'pdf,jpg,png',
-                                type: 'image/jpeg,image/png,pdf',
+                                extension: 'pdf',
                                 maxSize: 2097152,   // 2048 * 1024
-                                message: 'File harus berupa pdf/gambar dan tidak boleh lebh dari 2mb'
+                                message: 'File harus berupa pdf dan tidak boleh lebh dari 2mb'
                             },
                         }
                     },
